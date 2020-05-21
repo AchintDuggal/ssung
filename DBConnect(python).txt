@@ -1,0 +1,15 @@
+import mysql.connector
+from mysql.connector import Error
+from mysql.connector import errorcode
+import string
+
+def getDbConnection():
+    # Get Database connection
+    #try:
+        connection = mysql.connect(host='localhost',
+                                             # plm id , its crash call stack and registered binary details
+                                             database='plm_db',
+                                             user='root',
+                                             password='PARA1@mjit')
+        c = connection.cursor
+        return c, connection
