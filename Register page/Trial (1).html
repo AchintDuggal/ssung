@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+	<head>	
+		<title>Login</title>
+		<link rel="stylesheet" href="style.css">
+	</head>
+
+<body oncontextmenu="return false">
+<div class = "login-page">
+<div class = "form">
+<form class = "register-form">
+<h1>SIGN UP </h1>
+<input type = "text" placeholder ="Username" name="userid"/>
+<input type = "password" placeholder ="Password" name="passwrd"/>
+<input type = "text" placeholder ="email id"/>
+<button type ="submit"> Create </button>
+<p class= "message"> Already Registered? <a href= "#"> Login </a></p>
+</form>
+
+<form name ="login-form" action ="message.html" onsubmit="return Validate()">
+<h1 ">Login </h1>
+<input type = "text" placeholder ="Username" name= "" id="userid"/>
+<p class="nameErr"></p>
+<input type = "password" placeholder ="Password" name="" id="password"/>
+<p class="passErr"></p>
+<input type="checkbox" name="remember" id="remember" />
+<label for="remember">Remember Me</label>
+         
+<button type ="submit" id="ajaxBtn" onclick="check(this.form)"> Login </button>
+<p class= "message"> Not Registered? <a href= "#">Register</a></p>
+</form>
+</div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+<script>
+$('.message a').click(function(){
+$('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+});
+
+$(document).ready(function () {
+			
+		 $('#ajaxBtn').click(function(){
+			
+			$.post('#',   // url Push (ip(port)/login
+			   { myData: 'This is my data.' }, // data to be submit
+			   function(data, status, jqXHR) {// success callback
+						$('p').append('status: ' + status + ', data: ' + data);
+				}).done(function() { alert('Request done!'); })
+				  .fail(function(jqxhr, settings, ex) { alert('failed, ' + ex); });
+
+
+			});
+    });
+
+function Validate(){
+var un = $("#userid").val();
+var pass = $("#password").val();
+
+if (un == ""){
+$(".nameErr").html("Enter username" +" " + '<i class="fas fa-times" aria-hidden="true"></i>');
+return false;
+} else if (un.length < 6) {
+$(".nameErr").html("Name must contain 6 characters" +" " + '<i class="fas fa-times" aria-hidden="true"></i>');
+return false;
+}
+else if(un){
+$(".nameErr").html("" +" " + '<i class="fas fa-times" aria-hidden="true"></i>');
+true;
+}
+
+if(pass == "") {
+$(".passErr").html("Enter password" +" " + '<i class="fas fa-times" aria-hidden="true"></i>');
+return false;
+} else if(pass.length <=8){
+$(".passErr").html("Password must contain atleast 8 characters" +" " + '<i class="fas fa-times" aria-hidden="true"></i>');
+return false;
+}else if(pass){
+$(".passErr").html("" +" " + '<i class="fas fa-times" aria-hidden="true"></i>');
+true;
+}
+}
+
+
+//store into cookies
+if ($('#remember').attr('checked')) {
+var userid = $('#userid').attr("value");
+var password = $('#password').attr("value");
+// set cookies to expire in 7 days
+$.cookie('userid', username, { expires: 7 });
+$.cookie('password', password, { expires: 7 });
+$.cookie('remember', true, { expires: 7 });
+} else {
+// reset cookies
+$.cookie('userid', null);
+$.cookie('password', null);
+$.cookie('remember', null);
+}
+
+//Read from Cookies
+var remember = $.cookie('remember');
+if ( remember == 'true' ) {
+var userid = $.cookie('userid');
+var password = $.cookie('password');
+// autofill the fields
+$('#userid').attr("value", userid);
+$('#password').attr("value", password);
+}
+</script>
+</body>
+</html>
+
+
